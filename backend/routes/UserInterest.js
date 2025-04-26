@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const UserInterest = require('../models/UserInterest');
+const UserInterest = require('../models/UserInterest'); 
 
-// POST: Save user interests
-router.post('/', async (req, res) => {
+
+router.post('/api/user-interest', async (req, res) => {
   try {
-    const newUserInterest = new UserInterest(req.body);
-    await newUserInterest.save();
-    res.status(201).json({ message: 'User interests saved successfully' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to save user interests' });
+    const userInterest = new UserInterest(req.body);
+    await userInterest.save();
+    res.status(201).json({ message: 'Interests saved successfully!', userInterest });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: 'Error saving interests', error });
   }
 });
 
