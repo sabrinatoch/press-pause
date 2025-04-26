@@ -1,0 +1,59 @@
+/* Center the text and make the outer div larger */
+#loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 100%; /* Ensures it spans the full width */
+    margin: 0 auto; /* Centers the div horizontally */
+    font-family: Arial, sans-serif;
+    text-align: center; /* Centers text inside the div */
+}
+
+/* Add animation to the text */
+.animated-text {
+    animation: fadeInOut 2s infinite;
+    display: block;
+    margin-top: 1rem;
+}
+
+/* Keyframes for the animation */
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Center the outer-loading div and make it larger */
+#outer-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+    margin: 0 auto; /* Centers the div horizontally */
+    font-family: Arial, sans-serif;
+    text-align: center; /* Centers text inside the div */
+}
+
+/* Style and enlarge the text inside outer-loading */
+#outer-loading{
+    font-size: 4rem; /* Increase text size */
+    animation: fadeInOut 2s infinite;
+    display: block;
+    margin-top: 1rem;
+    color: #ffffff; /* Optional: Add text color */
+}
+
+/* Keyframes for the animation */
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
