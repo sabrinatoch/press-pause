@@ -1,5 +1,6 @@
-## Press Pause
-### JAC Hacks 2025
+## Press Pause ⏸️
+### From Digital to Analog Media
+#### JAC Hacks 2025
 
 The purpose of the **Press Pause** ⏸️ app is to provide *analog* packages of books, movie DVDs, music album CDs, games and other physical media for users wanting to be more intentional with their content consumption. It takes users' interests and generates a compilation of physical media that can be purchased, rented or borrowed from the library. Links to Amazon or the Québec's library catalogue are included to make the process faster and more convenient.
 

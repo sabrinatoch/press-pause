@@ -1,5 +1,88 @@
-<h2>Packages</h2>
-<button (click)="generatePackages()">Prompt</button>
-<div class="package-container">
+<h2>Analog Packages</h2>
+<button class="generate-btn pixel-border" (click)="generatePackages()">Generate New Packages</button>
 
+<div class="packages-container">
+  <div class="package-card pixel-border" *ngFor="let pkg of packages">
+    <div class="package-header">
+      <h3>{{ pkg.name }}</h3>
+    </div>
+    
+    <div class="package-grid">
+      <!-- Movie -->
+      <div class="package-item">
+        <div class="item-image">
+          <img [src]="pkg.movie.image_link" alt="{{ pkg.movie.title }}" class="pixel-art">
+        </div>
+        <div class="item-details">
+          <h4>Movie</h4>
+          <p class="item-title">{{ pkg.movie.title }}</p>
+          <p class="item-subtitle">{{ pkg.movie.director }}</p>
+          <span class="item-genre">{{ pkg.movie.genre }}</span>
+        </div>
+      </div>
+      
+      <!-- Book -->
+      <div class="package-item">
+        <div class="item-image">
+          <img [src]="pkg.book.image_link" alt="{{ pkg.book.title }}" class="pixel-art">
+        </div>
+        <div class="item-details">
+          <h4>Book</h4>
+          <p class="item-title">{{ pkg.book.title }}</p>
+          <p class="item-subtitle">by {{ pkg.book.author }}</p>
+          <span class="item-genre">{{ pkg.book.genre }}</span>
+        </div>
+      </div>
+      
+      <!-- Music -->
+      <div class="package-item">
+        <div class="item-image">
+          <img [src]="pkg.music.image_link" alt="{{ pkg.music.title }}" class="pixel-art">
+        </div>
+        <div class="item-details">
+          <h4>Music</h4>
+          <p class="item-title">{{ pkg.music.title }}</p>
+          <p class="item-subtitle">by {{ pkg.music.artist }}</p>
+          <span class="item-genre">{{ pkg.music.genre }}</span>
+        </div>
+      </div>
+      
+      <!-- Show -->
+      <div class="package-item">
+        <div class="item-image">
+          <img [src]="pkg.show.image_link" alt="{{ pkg.show.title }}" class="pixel-art">
+        </div>
+        <div class="item-details">
+          <h4>Show</h4>
+          <p class="item-title">{{ pkg.show.title }}</p>
+          <span class="item-genre">{{ pkg.show.genre }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="package-extras">
+      <!-- Game -->
+      <div class="extra-item">
+        <h4>Game</h4>
+        <p class="item-title">{{ pkg.game.title }}</p>
+        <span class="item-genre">{{ pkg.game.genre }} ({{ pkg.game.video_or_board }})</span>
+      </div>
+      
+      <!-- New Item -->
+      <div class="extra-item">
+        <h4>New Experience</h4>
+        <p class="item-title">{{ pkg.new.title }}</p>
+        <p class="item-description">{{ pkg.new.description }}</p>
+      </div>
+      
+      <!-- Activity -->
+      <div class="extra-item">
+        <h4>Activity</h4>
+        <p class="item-title">{{ pkg.activity.title }}</p>
+        <p class="item-description">{{ pkg.activity.description }}</p>
+      </div>
+    </div>
+    
+    <button class="view-details-btn" (click)="viewPackageDetails(pkg)">View Package Details</button>
+  </div>
 </div>
