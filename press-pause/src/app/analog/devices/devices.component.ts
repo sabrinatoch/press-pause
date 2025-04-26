@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-devices',
   imports: [],
   templateUrl: './devices.component.html',
-  styleUrl: './devices.component.css'
+  styleUrl: './devices.component.css',
+  standalone: true,
 })
 export class DevicesComponent {
 
