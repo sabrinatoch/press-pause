@@ -19,7 +19,7 @@ mongoose.connect('mongodb+srv://1822590:kneQqbtSZjuGywLB@press-pause.kr6utif.mon
 .catch((err) => console.error('Error connecting to MongoDB', err));
 
 app.get('/', (req, res) => {
-  res.send('Hello from backend!');
+  res.send('Hi :)');
 });
 
 
