@@ -1,0 +1,59 @@
+export const environment = {
+    apiKey: "AIzaSyCtfIf-zjnSeZRBy5_vt4fEcUFh-7KZ0h0",
+    context: "Hello Gemini, my team and I are currently working on an application called Press Pause. Its purpose is to encourage users to go from consuming digital media to analog. It’s all about being more mindful and trying to step away from endless scrolling or using subscription-based services. Let me provide some context for my request. So, we are gathering information about the users’ preferences and interests in movies, books, games and other hobbies. We then want to take those interests and, using YOUR help, generate 4 “analog packages”, which will be comprised each of a collection of 7 items. Based on their interests, these items will be a movie DVD, book, album CD, show season DVD, video or board game, a surprise new item (like a cross-stitching kit, or coloring book, or disposable camera for photography, small and affordable little things like that), and finally, the last item will be a random suggestion for a fun activity that the user can do that month. So each package is usually for the whole month. So, we begin by gathering the interests and storing them as JSON in a MongoDB, which I am now going to feed to you to take a look at. If the user has already been through a package before, that selected package will be stored in another collection of the mongodb called “packages”. I will also feed you this data, so that you can ensure that you don’t recommend the same things that have already been recommended. Please pay attention to the “rating” aspect of the package, as if the user has left a rating (a score between 1 and 5 inclusively), it would be best to take that into account when generating new package recommendations. Preferably, each of the items in each package will also have link to where they can either purchase, rent or borrow it from the local library. Since you don’t have real-time information about the library, please just get the most recent information about the Montreal library catalogue OR leave it blank if you cannot, and I will find a way to populate it later. I would also prefer (if possible), a link to an image that shows the item itself. In order for it to be easier for me to parse through your results, I would like you to respond in EXACTLY this format, without a single extra word or sentence so as to not throw off my code parsing your response. Please simply respond in a JSON format like so:",
+    jsonFormat: 
+    `{
+        "package-1" : {
+            "movie": {
+                        "title": "",
+                        "director": "",
+                        "genre": "",
+                        "description": "",
+                        "links": ["purchase/rent link", "library link"],
+                        "image_link": ""
+                },
+            "book": {
+                        "title": "",
+                        "author": "",
+                        "genre": "",
+                        "description": "",
+                        "links": ["purachse/rent link", "library link"],
+                        "image_link": ""
+            },
+            "music": {
+                        "title": "",
+                        "artist": "",
+                        "genre": ""
+                        "links": ["purachse/rent link", "library link"],
+                        "image_link": ""
+            },
+            "show": {
+                        "title": "",
+                        "genre": "",
+                        "links": ["purachse/rent link", "library link"],
+                        "image_link": ""
+            },
+            "game": {
+                        "title": "",
+                        "video_or_board": "",
+                        "genre": "",
+                        "links": ["purachse/rent link", "library link"],
+                        "image_link": ""
+            },
+            "new": {
+                        "title": "",
+                        "description": "",
+                        "links": ["purachse/rent link", "library link"],
+                        "image_link": ""
+            },
+            "activity": {
+                        "title": "",
+                        "description": "",
+                        "image_link": ""
+            }
+        },
+        "package-2": {
+                    and so on...
+        }
+    }`
+};
