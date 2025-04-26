@@ -34,7 +34,7 @@ export class PackagesComponent {
     // api call
     const response = await this.ai.models.generateContent({
       model: "gemini-2.0-flash",
-      contents: request,
+      contents: "*For now I have no test data, so given this prompt, please just generate RANDOM results for me to test. Thank you!" + request,
     });
     console.log(response.text);
   }

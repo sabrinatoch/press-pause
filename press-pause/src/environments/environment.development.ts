@@ -35,7 +35,7 @@ export const environment = {
             },
             "game": {
                         "title": "",
-                        "video_or_board": "",
+                        "video_or_board": "please just write Video Game or Board Game",
                         "genre": "",
                         "links": ["purachse/rent link", "library link"],
                         "image_link": ""
