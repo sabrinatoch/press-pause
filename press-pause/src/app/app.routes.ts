@@ -8,5 +8,6 @@ export const routes: Routes = [
     { path: 'home', component: AppComponent },
     { path: 'interests', component: UserInterestsComponent },
     { path: 'packages', component: PackagesComponent },
-    { path: 'loading', component: LoadingComponent}
+    { path: 'loading', component: LoadingComponent},
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
