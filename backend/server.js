@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const userInterestsRoutes = require('./routes/userInterests');
-app.use('/api/user-interests', userInterestsRoutes);
+const userInterestsRoutes = require('./routes/userInterest');
+app.use('/api/user-interest', userInterestsRoutes);
 
 mongoose.connect('mongodb+srv://1822590:kneQqbtSZjuGywLB@press-pause.kr6utif.mongodb.net/', {
   useNewUrlParser: true,
