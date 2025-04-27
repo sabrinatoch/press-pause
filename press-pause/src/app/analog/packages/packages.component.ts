@@ -30,7 +30,7 @@ export class PackagesComponent {
     });
   }
 
-  viewPackageDetails(selectedPackage: any) {
+  selectPackage(selectedPackage: any) {
     console.log('Selected package:', selectedPackage);
     // Navigate or display more info
   }

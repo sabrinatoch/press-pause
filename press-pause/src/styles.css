@@ -1,5 +1,5 @@
 body {
-    background-color: #11005d;
+    background-color: #050506;
     color: #ffffff;
     font-family: 'Futura', sans-serif;
     margin: 30px;
@@ -8,10 +8,10 @@ body {
 }
 
 body {
-    background-color: #11005d;
+    background-color: #060606;
     background-image: url('images/stars-background.gif');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     color: #ffffff;
     font-family: 'Futura', sans-serif;
     margin: 40px;
