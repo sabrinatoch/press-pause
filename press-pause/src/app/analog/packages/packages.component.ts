@@ -43,6 +43,19 @@ submitRating() {
     this.ratePackageBackend(this.selectedPackageName, this.rating);
 }
 
+savePackage(pkg: Package) {
+  this.http.post(`${this.apiUrl}/selected-packages/full-package`, pkg)
+    .subscribe({
+      next: (response) => {
+        console.log('Package saved successfully:', response);
+        alert(`The full package "${pkg.name}" has been saved!`);
+      },
+      error: (error) => {
+        console.error('Error saving package:', error);
+        alert('Failed to save the package. Please try again.');
+      }
+    });
+}
 
 ratePackageBackend(packageName: string, rating: number) {
     console.log(`Rating package: ${packageName} with ${rating} stars`);
@@ -64,17 +77,18 @@ ratePackageBackend(packageName: string, rating: number) {
     });
 }
 
-  selectPackage(selectedPackage: any) {
-    console.log('Selected package:', selectedPackage);
+selectPackage(selectedPackage: Package) {
+  console.log('Selected package:', selectedPackage);
 
-    this.packages = [selectedPackage];
-    this.messageVisible = true;
-    this.messageText = `You have selected the package: ${selectedPackage.name}`;
-    this.selectedPackageName = selectedPackage.name;
+  this.packages = [selectedPackage];
+  this.messageVisible = true;
+  this.messageText = `You have selected the package: ${selectedPackage.name}`;
+  this.selectedPackageName = selectedPackage.name;
 
 
-    // Show details or navigate
-  }
+  this.savePackage(selectedPackage);
+}
+
   
   savePackageItem(item: any, category: string) {
     this.http.post(`${this.apiUrl}/selected-packages`, {
