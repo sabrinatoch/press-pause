@@ -50,3 +50,8 @@ input[type="checkbox"] {
     accent-color: #008cff; /* Modern browsers support this for checkbox styling */
     cursor: pointer;
 }
+
+/* .contain-interests {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+} */

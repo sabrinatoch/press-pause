@@ -88,3 +88,9 @@
     overflow: hidden;
     max-width: 200px;
 }
+
+
+.device-contain {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
