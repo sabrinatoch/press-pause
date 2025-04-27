@@ -18,15 +18,61 @@ export class PackagesComponent {
   packages: Package[] = [];
   isLoading: boolean = false;
   apiUrl: string = 'http://localhost:3000/api'; // Update this with your actual API URL
+    messageVisible: boolean;
+    messageText: string;
 
   constructor(private http: HttpClient) {
     this.ai = new GoogleGenAI({ 
       apiKey: environment.apiKey
     });
+    this.messageVisible = false;
+    this.messageText = '';
+
+    
   }
+
+  rating: number = 0;
+selectedPackageName: string = 'example-package'; // Change dynamically as needed
+packageRating: number = -1; // Initialize packageRating
+
+ratePackage(star: number) {
+    this.rating = star;
+}
+
+submitRating() {
+    this.ratePackageBackend(this.selectedPackageName, this.rating);
+}
+
+
+ratePackageBackend(packageName: string, rating: number) {
+    console.log(`Rating package: ${packageName} with ${rating} stars`);
+
+    this.packageRating = rating;
+    return this.packageRating;
+    this.http.post(`${this.apiUrl}/rate-package`, {
+        packageName: packageName,
+        rating: rating
+    }).subscribe({
+        next: (response) => {
+            console.log(`Package ${packageName} rated successfully:`, response);
+            alert(`You rated the package "${packageName}" with ${rating} stars!`);
+        },
+        error: (error) => {
+            console.error(`Error rating package ${packageName}:`, error);
+            alert(`Failed to rate the package "${packageName}". Please try again.`);
+        }
+    });
+}
 
   selectPackage(selectedPackage: any) {
     console.log('Selected package:', selectedPackage);
+
+    this.packages = [selectedPackage];
+    this.messageVisible = true;
+    this.messageText = `You have selected the package: ${selectedPackage.name}`;
+    this.selectedPackageName = selectedPackage.name;
+
+
     // Show details or navigate
   }
   
@@ -142,3 +188,5 @@ interface Package {
 //       console.error('Error retrieving image:', error);
 //     }
 //   }
+
+

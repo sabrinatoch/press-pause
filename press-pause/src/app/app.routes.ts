@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { UserInterestsComponent } from './interests/user-interests/user-interests.component';
 import { PackagesComponent } from './analog/packages/packages.component';
