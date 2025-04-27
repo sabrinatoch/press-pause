@@ -1,23 +1,23 @@
-// In Node.js (backend):
-const express = require('express');
-const fetch = require('node-fetch');
+// models/ImageRetrieval.js
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+require('dotenv').config();
 
-const app = express();
-const port = 3000;
+const ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
-app.get('/retrieve', async (req, res) => {
-  const query = req.query.query || 'The Princess Bride';
-  const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1&no_html=1`;
+async function retrieveImage(query) {
+  const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&client_id=${ACCESS_KEY}`;
 
+  console.log(url);
   try {
     const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Error fetching from Unsplash');
+    }
     const data = await response.json();
-    res.json(data);
+    return data.results; // returns an array of image objects
   } catch (error) {
-    res.status(500).send('Error fetching from DuckDuckGo');
+    throw new Error(error.message);
   }
-});
+}
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+module.exports = retrieveImage;

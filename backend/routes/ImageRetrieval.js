@@ -1,11 +1,10 @@
+// routes/ImageRetrieval.js
 const express = require('express');
+const router = express.Router(); // <- You forgot to create router here
 const retrieveImage = require('../models/ImageRetrieval');
 
-
-const router = express.Router();
-
 // Route to retrieve an image
-router.get('/retrieve', async (req, res) => {
+router.post('/retrieve', async (req, res) => {
     try {
         const image = await retrieveImage(req.query.id);
         res.status(200).json(image);
