@@ -11,5 +11,5 @@ export const routes: Routes = [
     { path: 'interests', component: UserInterestsComponent },
     { path: 'packages', component: PackagesComponent },
     { path: 'loading', component: LoadingComponent},
-    { path: '**', redirectTo: 'home' } // Wildcard route for 404
+    { path: '**', redirectTo: 'home' } // Wildcard route for 404 -> atp better be sure that we cover this error, I cried to much for this
 ];
