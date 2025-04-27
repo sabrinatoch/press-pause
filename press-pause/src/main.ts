@@ -4,6 +4,7 @@ import { AppComponent } from './app/app.component';
 import { provideAuth0 } from '@auth0/auth0-angular';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
   ...appConfig,
@@ -16,6 +17,7 @@ bootstrapApplication(AppComponent, {
         redirect_uri: window.location.origin
       }
     }),
+    provideHttpClient()  
   ]
 })
-  .catch((err) => console.error(err));
+.catch((err) => console.error(err));
