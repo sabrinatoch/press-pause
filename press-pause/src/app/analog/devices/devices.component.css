@@ -79,3 +79,11 @@
       grid-template-columns: 1fr;
     }
   }
+
+.pixel-art {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    overflow: hidden;
+}

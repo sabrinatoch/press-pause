@@ -109,6 +109,7 @@ ratePackageBackend(packageName: string, rating: number) {
 
   async generatePackages() {
     this.isLoading = true;
+    this.messageVisible = false;
     const request: string = environment.context + " " + environment.jsonFormat;
     try {
       // Step 1: Call to Gemini AI to generate content
