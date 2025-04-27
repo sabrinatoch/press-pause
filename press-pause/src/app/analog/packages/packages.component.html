@@ -4,12 +4,31 @@
 
 <app-loading *ngIf="isLoading"></app-loading>
 
-<div class="packages-container" *ngIf="!isLoading">
-  <div class="package-card pixel-border" *ngFor="let pkg of packages">
+<div class="packages-container" *ngIf="!isLoading" >
+  <div class="package-card pixel-border" *ngFor="let pkg of packages" [ngClass]="{'selected': messageVisible == true}">
     <div class="package-header">
       <h3>{{ pkg.name }}</h3>
+      <h4 *ngIf="messageVisible == true">Selected</h4>
     </div>
-    
+    <div id="rate-package" *ngIf="messageVisible == true">
+      <h4>Rate this package:</h4>
+      <div class="package-rating">
+        <!-- Star Rating -->
+        <span 
+          *ngFor="let star of [1, 2, 3, 4, 5]" 
+          (click)="ratePackage(star)" 
+          [ngClass]="{'filled': star <= rating}" 
+          class="star">
+          &#9733;
+        </span>
+      
+        <!-- Submit Button -->
+        <button class="submit-rating-btn" (click)="submitRating()" *ngIf="rating == -1">
+          Submit
+        </button>
+        <p *ngIf="rating > -1">You rated this package: {{ rating }} stars</p>
+      </div>
+    </div>
     <div class="package-grid">
       <!-- Movie -->
       <div class="package-item">
@@ -95,6 +114,6 @@
       </div>
     </div>
     
-    <button class="view-details-btn" (click)="selectPackage(pkg)">Select Package</button>
+    <button class="view-details-btn" (click)="selectPackage(pkg)" *ngIf="messageVisible == false">Select Package</button>
   </div>
 </div>
