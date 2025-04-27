@@ -21,6 +21,7 @@
           <p class="item-title">{{ pkg.movie.title }}</p>
           <p class="item-subtitle">{{ pkg.movie.director }}</p>
           <span class="item-genre">{{ pkg.movie.genre }}</span>
+          <button class="save-item-btn" (click)="savePackageItem(pkg.movie, 'movie')">Save Movie</button>
         </div>
       </div>
       
@@ -34,6 +35,7 @@
           <p class="item-title">{{ pkg.book.title }}</p>
           <p class="item-subtitle">by {{ pkg.book.author }}</p>
           <span class="item-genre">{{ pkg.book.genre }}</span>
+          <button class="save-item-btn" (click)="savePackageItem(pkg.book, 'book')">Save Book</button>
         </div>
       </div>
       
@@ -47,6 +49,7 @@
           <p class="item-title">{{ pkg.music.title }}</p>
           <p class="item-subtitle">by {{ pkg.music.artist }}</p>
           <span class="item-genre">{{ pkg.music.genre }}</span>
+          <button class="save-item-btn" (click)="savePackageItem(pkg.music, 'music')">Save Music</button>
         </div>
       </div>
       
@@ -59,6 +62,7 @@
           <h4>Show</h4>
           <p class="item-title">{{ pkg.show.title }}</p>
           <span class="item-genre">{{ pkg.show.genre }}</span>
+          <button class="save-item-btn" (click)="savePackageItem(pkg.show, 'show')">Save Show</button>
         </div>
       </div>
     </div>
@@ -69,6 +73,7 @@
         <h4>Game</h4>
         <p class="item-title">{{ pkg.game.title }}</p>
         <span class="item-genre">{{ pkg.game.genre }} ({{ pkg.game.video_or_board }})</span>
+        <button class="save-item-btn" (click)="savePackageItem(pkg.game, 'game')">Save Game</button>
       </div>
       
       <!-- New Item -->
@@ -76,6 +81,7 @@
         <h4>New Experience</h4>
         <p class="item-title">{{ pkg.new.title }}</p>
         <p class="item-description">{{ pkg.new.description }}</p>
+        <button class="save-item-btn" (click)="savePackageItem(pkg.new, 'new')">Save Experience</button>
       </div>
       
       <!-- Activity -->
@@ -83,6 +89,7 @@
         <h4>Activity</h4>
         <p class="item-title">{{ pkg.activity.title }}</p>
         <p class="item-description">{{ pkg.activity.description }}</p>
+        <button class="save-item-btn" (click)="savePackageItem(pkg.activity, 'activity')">Save Activity</button>
       </div>
     </div>
     

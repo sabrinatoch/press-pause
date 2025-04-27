@@ -39,9 +39,9 @@ const UserInterestSchema = new mongoose.Schema({
       }
     ]
   },
-  userId: { //TO-DO:will need to be changed to the authenticated user id later
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+  userId: {
+    type: String,
+    default: "1",
     required: false
   }
 }, {
