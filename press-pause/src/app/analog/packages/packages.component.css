@@ -66,3 +66,42 @@
     grid-template-columns: 1fr;
   }
 }
+
+.package-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.star {
+  font-size: 2rem; /* Bigger stars */
+  color: gray; /* Unfilled color */
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.star.filled {
+  color: gold; /* Filled star color */
+}
+
+.star:hover {
+  transform: scale(1.2); /* Slight pop when hovered */
+  color: gold;
+}
+
+.submit-rating-btn {
+  margin-left: 15px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  background-color: var(--primary-text);
+  color: var(--primary-bg);
+  border: 2px solid var(--primary-text);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-rating-btn:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+}
