@@ -1,7 +1,10 @@
 <h2>Analog Packages</h2>
 <button class="generate-btn pixel-border" (click)="generatePackages()">Generate New Packages</button>
 
-<div class="packages-container">
+
+<app-loading *ngIf="isLoading"></app-loading>
+
+<div class="packages-container" *ngIf="!isLoading">
   <div class="package-card pixel-border" *ngFor="let pkg of packages">
     <div class="package-header">
       <h3>{{ pkg.name }}</h3>
