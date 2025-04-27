@@ -15,5 +15,4 @@ export const routes: Routes = [
     { path: 'loading', component: LoadingComponent, canActivate: [AuthGuard]},
     {path: 'devices', component: DevicesComponent, canActivate: [AuthGuard]},
     { path: '**', redirectTo: 'home' } // Wildcard route for 404
-
 ];

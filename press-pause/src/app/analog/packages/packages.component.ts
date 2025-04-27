@@ -5,6 +5,9 @@ import { CommonModule, NgFor, NgForOf, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../loading/loading.component';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '@auth0/auth0-angular';
+
+
 @Component({
   selector: 'app-packages',
   imports: [CommonModule, LoadingComponent],
@@ -13,15 +16,17 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
 })
 export class PackagesComponent {
-
+ 
   ai: GoogleGenAI;
   packages: Package[] = [];
   isLoading: boolean = false;
-  apiUrl: string = 'http://localhost:3000/api'; // Update this with your actual API URL
+  apiUrl: string = 'http://localhost:3000/api';
     messageVisible: boolean;
     messageText: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private auth: AuthService) {
+    
     this.ai = new GoogleGenAI({ 
       apiKey: environment.apiKey
     });
@@ -34,7 +39,6 @@ export class PackagesComponent {
   rating: number = 0;
 selectedPackageName: string = 'example-package'; // Change dynamically as needed
 packageRating: number = -1; // Initialize packageRating
-
 ratePackage(star: number) {
     this.rating = star;
 }
