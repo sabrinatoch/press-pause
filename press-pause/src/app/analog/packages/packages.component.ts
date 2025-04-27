@@ -63,8 +63,6 @@ try {
   console.error('Error retrieving image:', error);
 }
 
-
-
     // grab user data from mongo
     const userData: string = "";
 
