@@ -4,6 +4,7 @@ import { UserInterestsComponent } from './interests/user-interests/user-interest
 import { PackagesComponent } from './analog/packages/packages.component';
 import { LoadingComponent } from './loading/loading.component';
 import { HomeComponent } from './home/home.component';
+import { DevicesComponent } from './analog/devices/devices.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
@@ -11,5 +12,7 @@ export const routes: Routes = [
     { path: 'interests', component: UserInterestsComponent },
     { path: 'packages', component: PackagesComponent },
     { path: 'loading', component: LoadingComponent},
-    { path: '**', redirectTo: 'home' } // Wildcard route for 404 -> atp better be sure that we cover this error, I cried to much for this
+    {path: 'devices', component: DevicesComponent},
+    { path: '**', redirectTo: 'home' } // Wildcard route for 404
+
 ];
