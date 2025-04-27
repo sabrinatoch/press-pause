@@ -75,50 +75,50 @@ export class PackagesComponent {
         };
       });
   
-      // Step 3: Iterate through each package and each item (movie, book, etc.)
-      for (let pkg of this.packages) {
-        for (let key of ['movie', 'book', 'music', 'show', 'game', 'new', 'activity']) {
-          // Fixed error by properly checking if pkg[key] exists before accessing its properties
-          if ((pkg as any)[key] && typeof (pkg as any)[key] === 'object' && (pkg as any)[key].hasOwnProperty('title')) {
-            const title = (pkg as any)[key].title;
-            // Construct the query: "Hitch movie", "Harry Potter book", etc.
-            const query = `${title} ${key}`;
-            var queryWithPlus = query;
+    //   // Step 3: Iterate through each package and each item (movie, book, etc.)
+    //   for (let pkg of this.packages) {
+    //     for (let key of ['movie', 'book', 'music', 'show', 'game', 'new', 'activity']) {
+    //       // Fixed error by properly checking if pkg[key] exists before accessing its properties
+    //       if ((pkg as any)[key] && typeof (pkg as any)[key] === 'object' && (pkg as any)[key].hasOwnProperty('title')) {
+    //         const title = (pkg as any)[key].title;
+    //         // Construct the query: "Hitch movie", "Harry Potter book", etc.
+    //         const query = `${title} ${key}`;
+    //         var queryWithPlus = query;
   
-            if (title) {
-              try {
-                // Manually replace spaces with '+' in the query before encoding
-                const queryWithPlus = query.replace(/ /g, '+');
+    //         if (title) {
+    //           try {
+    //             // Manually replace spaces with '+' in the query before encoding
+    //             const queryWithPlus = query.replace(/ /g, '+');
   
-                // Fetch the image from the image retrieval API
-                const imageResponse = await firstValueFrom(this.http.get<any[]>(
-                  `http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`
-                ));
-                console.log(`Image response for ${queryWithPlus}:`, imageResponse);
+    //             // Fetch the image from the image retrieval API
+    //             const imageResponse = await firstValueFrom(this.http.get<any[]>(
+    //               `http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`
+    //             ));
+    //             console.log(`Image response for ${queryWithPlus}:`, imageResponse);
   
-                // Process the response
-                if (imageResponse && imageResponse.length > 0) {
-                  // Set the image_link to the URL
-                  (pkg as any)[key].image_link = imageResponse[0].urls?.regular || imageResponse[0].urls?.raw || '';
+    //             // Process the response
+    //             if (imageResponse && imageResponse.length > 0) {
+    //               // Set the image_link to the URL
+    //               (pkg as any)[key].image_link = imageResponse[0].urls?.regular || imageResponse[0].urls?.raw || '';
                   
-                  // Add a smaller version for thumbnails if needed
-                  (pkg as any)[key].thumbnail = imageResponse[0].urls?.thumb || '';
-                } else {
-                  console.warn(`No image found for ${queryWithPlus}, skipping...`);
-                }
-              } catch (error) {
-                // If image retrieval fails, just log the error and continue to the next item
-                console.error(`Error retrieving image for ${queryWithPlus}:`, error);
-              }
-            }
-          }
-        }
-      }
+    //               // Add a smaller version for thumbnails if needed
+    //               (pkg as any)[key].thumbnail = imageResponse[0].urls?.thumb || '';
+    //             } else {
+    //               console.warn(`No image found for ${queryWithPlus}, skipping...`);
+    //             }
+    //           } catch (error) {
+    //             // If image retrieval fails, just log the error and continue to the next item
+    //             console.error(`Error retrieving image for ${queryWithPlus}:`, error);
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
   
     } catch (error) {
       console.error('Error generating packages or retrieving images:', error);
     }
-  
+    
     this.isLoading = false;
   }
 }
@@ -133,12 +133,3 @@ interface Package {
   new: any;
   activity: any;
 }
-
-// async generateImage() {
-//     try {
-//       const response = await firstValueFrom(this.http.post('http://localhost:3000/api/image-retrieval', "princess bride"));
-//       console.log('Server response:', response);
-//     } catch (error) {
-//       console.error('Error retrieving image:', error);
-//     }
-//   }
