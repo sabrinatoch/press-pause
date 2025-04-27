@@ -44,6 +44,12 @@
     box-shadow: 0 0 15px var(--glow-color);
     position: relative;
   }
+
+  .www {
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+  }
   
   /* Text & Headings */
   h1, h2, h3, h4 {
