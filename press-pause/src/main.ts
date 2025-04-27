@@ -14,7 +14,8 @@ bootstrapApplication(AppComponent, {
       domain: 'dev-an87aiswf0l0oac8.us.auth0.com',
       clientId: '9JtXGmaS9pahKp6D4DhnrnVbVajwluug',
       authorizationParams: {
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin,
+        
       }
     }),
     provideHttpClient()  

@@ -18,15 +18,61 @@ export class PackagesComponent {
   packages: Package[] = [];
   isLoading: boolean = false;
   apiUrl: string = 'http://localhost:3000/api'; // Update this with your actual API URL
+    messageVisible: boolean;
+    messageText: string;
 
   constructor(private http: HttpClient) {
     this.ai = new GoogleGenAI({ 
       apiKey: environment.apiKey
     });
+    this.messageVisible = false;
+    this.messageText = '';
+
+    
   }
+
+  rating: number = 0;
+selectedPackageName: string = 'example-package'; // Change dynamically as needed
+packageRating: number = -1; // Initialize packageRating
+
+ratePackage(star: number) {
+    this.rating = star;
+}
+
+submitRating() {
+    this.ratePackageBackend(this.selectedPackageName, this.rating);
+}
+
+
+ratePackageBackend(packageName: string, rating: number) {
+    console.log(`Rating package: ${packageName} with ${rating} stars`);
+
+    this.packageRating = rating;
+    return this.packageRating;
+    this.http.post(`${this.apiUrl}/rate-package`, {
+        packageName: packageName,
+        rating: rating
+    }).subscribe({
+        next: (response) => {
+            console.log(`Package ${packageName} rated successfully:`, response);
+            alert(`You rated the package "${packageName}" with ${rating} stars!`);
+        },
+        error: (error) => {
+            console.error(`Error rating package ${packageName}:`, error);
+            alert(`Failed to rate the package "${packageName}". Please try again.`);
+        }
+    });
+}
 
   selectPackage(selectedPackage: any) {
     console.log('Selected package:', selectedPackage);
+
+    this.packages = [selectedPackage];
+    this.messageVisible = true;
+    this.messageText = `You have selected the package: ${selectedPackage.name}`;
+    this.selectedPackageName = selectedPackage.name;
+
+
     // Show details or navigate
   }
   
@@ -75,50 +121,50 @@ export class PackagesComponent {
         };
       });
   
-      // Step 3: Iterate through each package and each item (movie, book, etc.)
-      for (let pkg of this.packages) {
-        for (let key of ['movie', 'book', 'music', 'show', 'game', 'new', 'activity']) {
-          // Fixed error by properly checking if pkg[key] exists before accessing its properties
-          if ((pkg as any)[key] && typeof (pkg as any)[key] === 'object' && (pkg as any)[key].hasOwnProperty('title')) {
-            const title = (pkg as any)[key].title;
-            // Construct the query: "Hitch movie", "Harry Potter book", etc.
-            const query = `${title} ${key}`;
-            var queryWithPlus = query;
+    //   // Step 3: Iterate through each package and each item (movie, book, etc.)
+    //   for (let pkg of this.packages) {
+    //     for (let key of ['movie', 'book', 'music', 'show', 'game', 'new', 'activity']) {
+    //       // Fixed error by properly checking if pkg[key] exists before accessing its properties
+    //       if ((pkg as any)[key] && typeof (pkg as any)[key] === 'object' && (pkg as any)[key].hasOwnProperty('title')) {
+    //         const title = (pkg as any)[key].title;
+    //         // Construct the query: "Hitch movie", "Harry Potter book", etc.
+    //         const query = `${title} ${key}`;
+    //         var queryWithPlus = query;
   
-            if (title) {
-              try {
-                // Manually replace spaces with '+' in the query before encoding
-                const queryWithPlus = query.replace(/ /g, '+');
+    //         if (title) {
+    //           try {
+    //             // Manually replace spaces with '+' in the query before encoding
+    //             const queryWithPlus = query.replace(/ /g, '+');
   
-                // Fetch the image from the image retrieval API
-                const imageResponse = await firstValueFrom(this.http.get<any[]>(
-                  `http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`
-                ));
-                console.log(`Image response for ${queryWithPlus}:`, imageResponse);
+    //             // Fetch the image from the image retrieval API
+    //             const imageResponse = await firstValueFrom(this.http.get<any[]>(
+    //               `http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`
+    //             ));
+    //             console.log(`Image response for ${queryWithPlus}:`, imageResponse);
   
-                // Process the response
-                if (imageResponse && imageResponse.length > 0) {
-                  // Set the image_link to the URL
-                  (pkg as any)[key].image_link = imageResponse[0].urls?.regular || imageResponse[0].urls?.raw || '';
+    //             // Process the response
+    //             if (imageResponse && imageResponse.length > 0) {
+    //               // Set the image_link to the URL
+    //               (pkg as any)[key].image_link = imageResponse[0].urls?.regular || imageResponse[0].urls?.raw || '';
                   
-                  // Add a smaller version for thumbnails if needed
-                  (pkg as any)[key].thumbnail = imageResponse[0].urls?.thumb || '';
-                } else {
-                  console.warn(`No image found for ${queryWithPlus}, skipping...`);
-                }
-              } catch (error) {
-                // If image retrieval fails, just log the error and continue to the next item
-                console.error(`Error retrieving image for ${queryWithPlus}:`, error);
-              }
-            }
-          }
-        }
-      }
+    //               // Add a smaller version for thumbnails if needed
+    //               (pkg as any)[key].thumbnail = imageResponse[0].urls?.thumb || '';
+    //             } else {
+    //               console.warn(`No image found for ${queryWithPlus}, skipping...`);
+    //             }
+    //           } catch (error) {
+    //             // If image retrieval fails, just log the error and continue to the next item
+    //             console.error(`Error retrieving image for ${queryWithPlus}:`, error);
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
   
     } catch (error) {
       console.error('Error generating packages or retrieving images:', error);
     }
-  
+    
     this.isLoading = false;
   }
 }
@@ -133,12 +179,3 @@ interface Package {
   new: any;
   activity: any;
 }
-
-// async generateImage() {
-//     try {
-//       const response = await firstValueFrom(this.http.post('http://localhost:3000/api/image-retrieval', "princess bride"));
-//       console.log('Server response:', response);
-//     } catch (error) {
-//       console.error('Error retrieving image:', error);
-//     }
-//   }

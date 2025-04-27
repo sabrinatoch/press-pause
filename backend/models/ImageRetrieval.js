@@ -38,9 +38,59 @@ async function retrieveImage(query, type) {
     }
   } catch (error) {
     console.error(`Error retrieving image for ${query}:`, error);
-    // Fall back to Unsplash if specialized API fails
-    return await getFromUnsplash(query);
+    
+    // Return placeholder image based on content type
+    if (['movie', 'show', 'book', 'game', 'music'].includes(type)) {
+      return [createPlaceholderResult(type)];
+    }
+    
+    // For other types, fall back to Unsplash
+    try {
+      return await getFromUnsplash(query);
+    } catch (unsplashError) {
+      console.error(`Unsplash fallback failed:`, unsplashError);
+      // Return a generic placeholder as last resort
+      return [createPlaceholderResult('generic')];
+    }
   }
+}
+
+/**
+ * Returns a placeholder image path for the specified content type
+ * @param {string} type - The content type
+ * @returns {string} - Placeholder image path
+ */
+function getPlaceholderPath(type) {
+  const placeholders = {
+    'movie': 'assets/images/movie-placeholder.jpg',
+    'show': 'assets/images/show-placeholder.jpg',
+    'book': 'assets/images/book-placeholder.jpg', 
+    'game': 'assets/images/game-placeholder.jpg',
+    'music': 'assets/images/music-placeholder.jpg',
+    'generic': 'assets/images/placeholder.jpg'
+  };
+  
+  return placeholders[type] || placeholders.generic;
+}
+
+/**
+ * Creates a result object with the placeholder image path
+ * @param {string} type - The content type
+ * @returns {Object} - Result object with placeholder image
+ */
+function createPlaceholderResult(type) {
+  const path = getPlaceholderPath(type);
+  
+  return {
+    id: `placeholder-${type}`,
+    description: `Placeholder image for ${type}`,
+    urls: {
+      raw: path,
+      regular: path,
+      thumb: path
+    },
+    isPlaceholder: true
+  };
 }
 
 /**
@@ -61,6 +111,11 @@ async function getFromTMDB(query, type) {
   
   if (data.results && data.results.length > 0) {
     const id = data.results[0].id;
+    
+    // Check if poster or backdrop path exists
+    if (!data.results[0].poster_path && !data.results[0].backdrop_path) {
+      throw new Error(`No image found for ${type}`);
+    }
     
     // Then, get images for that specific movie/show
     const imagesUrl = `https://api.themoviedb.org/3/${endpoint}/${id}/images?api_key=${TMDB_API_KEY}`;
@@ -84,7 +139,7 @@ async function getFromTMDB(query, type) {
     }];
   }
   
-  throw new Error('No TMDB results found');
+  throw new Error(`No ${type} results found`);
 }
 
 /**
@@ -143,6 +198,11 @@ async function getMusicCover(query) {
       // Get the largest image
       const image = album.image.find(img => img.size === 'extralarge') || album.image[0];
       
+      // Check if image URL exists and is valid
+      if (!image || !image['#text'] || image['#text'] === '') {
+        throw new Error('No music cover image found');
+      }
+      
       return [{
         id: album.mbid || album.url,
         description: `${album.name} by ${album.artist}`,
@@ -156,14 +216,22 @@ async function getMusicCover(query) {
   }
   
   // Fall back to Google image search for music
-  return await getFromGoogle(`${query} album cover`);
+  try {
+    return await getFromGoogle(`${query} album cover`);
+  } catch (error) {
+    throw new Error('No music cover found');
+  }
 }
 
 /**
  * Get game cover using Google Custom Search API
  */
 async function getGameCover(query) {
-  return await getFromGoogle(`${query} video game cover`);
+  try {
+    return await getFromGoogle(`${query} video game cover`);
+  } catch (error) {
+    throw new Error('No game cover found');
+  }
 }
 
 /**

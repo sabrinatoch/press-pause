@@ -21,3 +21,26 @@
     grid-template-columns: 1fr;
   }
 }
+
+.selected {
+  background-color: #00d9ff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.selected .item-genre {
+  background-color: #ffffff;
+  color: #00d9ff;
+  border-color: #000000;
+}
+
+.selected .view-details-btn {
+  background-color: #ffffff;
+  color: #00d9ff;
+  border-color: #000000;
+}
+
+.selected .view-details-btn:hover {
+  background-color: #00d9ff;
+  color: #ffffff;
+}

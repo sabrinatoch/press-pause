@@ -4,17 +4,36 @@
 
 <app-loading *ngIf="isLoading"></app-loading>
 
-<div class="packages-container" *ngIf="!isLoading">
-  <div class="package-card pixel-border" *ngFor="let pkg of packages">
+<div class="packages-container" *ngIf="!isLoading" >
+  <div class="package-card pixel-border" *ngFor="let pkg of packages" [ngClass]="{'selected': messageVisible == true}">
     <div class="package-header">
       <h3>{{ pkg.name }}</h3>
+      <h4 *ngIf="messageVisible == true">Selected</h4>
     </div>
-    
+    <div id="rate-package" *ngIf="messageVisible == true">
+      <h4>Rate this package:</h4>
+      <div class="package-rating">
+        <!-- Star Rating -->
+        <span 
+          *ngFor="let star of [1, 2, 3, 4, 5]" 
+          (click)="ratePackage(star)" 
+          [ngClass]="{'filled': star <= rating}" 
+          class="star">
+          &#9733;
+        </span>
+      
+        <!-- Submit Button -->
+        <button class="submit-rating-btn" (click)="submitRating()" *ngIf="rating == -1">
+          Submit
+        </button>
+        <p *ngIf="rating > -1">You rated this package: {{ rating }} stars</p>
+      </div>
+    </div>
     <div class="package-grid">
       <!-- Movie -->
       <div class="package-item">
         <div class="item-image">
-          <img [src]="pkg.movie.image_link" alt="{{ pkg.movie.title }}" class="pixel-art">
+          <img src="./movie-placeholder.jpg" alt="{{ pkg.movie.title }}" class="pixel-art">
         </div>
         <div class="item-details">
           <h4>Movie</h4>
@@ -27,7 +46,7 @@
       <!-- Book -->
       <div class="package-item">
         <div class="item-image">
-          <img [src]="pkg.book.image_link" alt="{{ pkg.book.title }}" class="pixel-art">
+          <img src="./book-placeholder.jpg" alt="{{ pkg.book.title }}" class="pixel-art">
         </div>
         <div class="item-details">
           <h4>Book</h4>
@@ -40,7 +59,7 @@
       <!-- Music -->
       <div class="package-item">
         <div class="item-image">
-          <img [src]="pkg.music.image_link" alt="{{ pkg.music.title }}" class="pixel-art">
+          <img src="./music-placeholder.jpg" alt="{{ pkg.music.title }}" class="pixel-art">
         </div>
         <div class="item-details">
           <h4>Music</h4>
@@ -53,7 +72,7 @@
       <!-- Show -->
       <div class="package-item">
         <div class="item-image">
-          <img [src]="pkg.show.image_link" alt="{{ pkg.show.title }}" class="pixel-art">
+          <img src="./show-placeholder.jpg" alt="{{ pkg.show.title }}" class="pixel-art">
         </div>
         <div class="item-details">
           <h4>Show</h4>
@@ -61,23 +80,32 @@
           <span class="item-genre">{{ pkg.show.genre }}</span>
         </div>
       </div>
-    </div>
-    
-    <div class="package-extras">
-      <!-- Game -->
-      <div class="extra-item">
+
+
+    <div class="package-item">
+      <div class="item-image">
+        <img src="./game-placeholder.jpg" alt="{{ pkg.game.title }}" class="pixel-art">
+      </div>
+      <div class="item-details">
         <h4>Game</h4>
         <p class="item-title">{{ pkg.game.title }}</p>
         <span class="item-genre">{{ pkg.game.genre }} ({{ pkg.game.video_or_board }})</span>
       </div>
-      
-      <!-- New Item -->
-      <div class="extra-item">
+    </div>
+
+    <div class="package-item">
+      <div class="item-image">
+        <img src="./retro.jpg" alt="{{ pkg.new.title }}" class="pixel-art">
+      </div>
+      <div class="item-details">
         <h4>New Experience</h4>
         <p class="item-title">{{ pkg.new.title }}</p>
         <p class="item-description">{{ pkg.new.description }}</p>
       </div>
-      
+    </div>
+  </div>
+    
+    <div class="package-extras">
       <!-- Activity -->
       <div class="extra-item">
         <h4>Activity</h4>
@@ -86,6 +114,6 @@
       </div>
     </div>
     
-    <button class="view-details-btn" (click)="selectPackage(pkg)">Select Package</button>
+    <button class="view-details-btn" (click)="selectPackage(pkg)" *ngIf="messageVisible == false">Select Package</button>
   </div>
 </div>
