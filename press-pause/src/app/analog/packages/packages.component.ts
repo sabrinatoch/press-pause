@@ -5,7 +5,6 @@ import { CommonModule, NgFor, NgForOf, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../loading/loading.component';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-packages',
   imports: [CommonModule, LoadingComponent],
@@ -18,15 +17,9 @@ export class PackagesComponent {
   ai: GoogleGenAI;
   packages: Package[] = [];
   isLoading: boolean = false;
+  apiUrl: string = 'http://localhost:3000/api'; // Update this with your actual API URL
 
   constructor(private http: HttpClient) {
-    // this.packages = [
-    //   { name: 'Package 1', ...this.packageData['package-1'] },
-    //   { name: 'Package 2', ...this.packageData['package-2'] },
-    //   { name: 'Package 3', ...this.packageData['package-3'] },
-    //   { name: 'Package 4', ...this.packageData['package-4'] }
-    // ];
-
     this.ai = new GoogleGenAI({ 
       apiKey: environment.apiKey
     });
@@ -34,14 +27,31 @@ export class PackagesComponent {
 
   viewPackageDetails(selectedPackage: any) {
     console.log('Selected package:', selectedPackage);
-    // Navigate or display more info
+    // Show details or navigate
+  }
+  
+  savePackageItem(item: any, category: string) {
+    this.http.post(`${this.apiUrl}/selected-packages`, {
+      item: item,
+      category: category
+    }).subscribe({
+      next: (response) => {
+        console.log(`${category} saved successfully:`, response);
+        // Show a success message to the user
+        alert(`${category} has been saved to your collection!`);
+      },
+      error: (error) => {
+        console.error(`Error saving ${category}:`, error);
+        // Show an error message to the user
+        alert(`Failed to save ${category}. Please try again.`);
+      }
+    });
   }
 
   async generatePackages() {
     this.isLoading = true;
     // context for the prompt
     const request: string = environment.context + " " + environment.jsonFormat;
-
     const payload = { query: "princess bride" };
 
 try {
@@ -105,7 +115,6 @@ interface Package {
   activity: any;
 }
 
-
 // async generateImage() {
 //     try {
 //       const response = await firstValueFrom(this.http.post('http://localhost:3000/api/image-retrieval', "princess bride"));
@@ -114,4 +123,3 @@ interface Package {
 //       console.error('Error retrieving image:', error);
 //     }
 //   }
-  

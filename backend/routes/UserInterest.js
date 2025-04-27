@@ -5,7 +5,6 @@ const UserInterest = require('../models/UserInterest');
 
 router.post('/', async (req, res) => {
   try {
-    // Transform incoming data to match the schema
     const transformedData = {
       interests: {
         movies: transformInterestData(req.body.favoriteMovies, req.body.movieGenres),
@@ -25,20 +24,18 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Helper function to transform the data
 function transformInterestData(favoriteItems, genres) {
   const result = [];
   
-  // Add genres as separate entries
+
   if (genres && genres.length) {
     genres.forEach(genre => {
       result.push({ title: '', genre: genre });
     });
   }
   
-  // Add favorite items if provided
+
   if (favoriteItems) {
-    // Split by commas if multiple items are provided
     const items = favoriteItems.split(',').map(item => item.trim()).filter(item => item);
     items.forEach(item => {
       result.push({ title: item, genre: '' });
