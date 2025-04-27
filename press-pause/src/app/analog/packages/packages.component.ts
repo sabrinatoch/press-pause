@@ -3,6 +3,8 @@ import { GoogleGenAI } from '@google/genai';
 import { environment } from '../../../environments/environment';
 import { CommonModule, NgFor, NgForOf, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../loading/loading.component';
+import { firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-packages',
@@ -17,7 +19,7 @@ export class PackagesComponent {
   packages: Package[] = [];
   isLoading: boolean = false;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     // this.packages = [
     //   { name: 'Package 1', ...this.packageData['package-1'] },
     //   { name: 'Package 2', ...this.packageData['package-2'] },
@@ -39,6 +41,19 @@ export class PackagesComponent {
     this.isLoading = true;
     // context for the prompt
     const request: string = environment.context + " " + environment.jsonFormat;
+
+    const payload = { query: "princess bride" };
+
+try {
+  const response = await firstValueFrom(this.http.post('http://localhost:3000/api/image-retrieval', payload, {
+    headers: { 'Content-Type': 'application/json' }  // Explicitly set content type if needed
+  }));
+  console.log('Server response:', response);
+} catch (error) {
+  console.error('Error retrieving image:', error);
+}
+
+
 
     // grab user data from mongo
     const userData: string = "";
@@ -89,3 +104,14 @@ interface Package {
   new: any;
   activity: any;
 }
+
+
+// async generateImage() {
+//     try {
+//       const response = await firstValueFrom(this.http.post('http://localhost:3000/api/image-retrieval', "princess bride"));
+//       console.log('Server response:', response);
+//     } catch (error) {
+//       console.error('Error retrieving image:', error);
+//     }
+//   }
+  
