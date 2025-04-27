@@ -3,7 +3,8 @@ import { GoogleGenAI } from '@google/genai';
 import { environment } from '../../../environments/environment';
 import { CommonModule, NgFor, NgForOf, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../loading/loading.component';
-
+import { firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-packages',
   imports: [CommonModule, LoadingComponent],
@@ -16,51 +17,56 @@ export class PackagesComponent {
   ai: GoogleGenAI;
   packages: Package[] = [];
   isLoading: boolean = false;
+  apiUrl: string = 'http://localhost:3000/api'; // Update this with your actual API URL
 
-  constructor() {
-    // this.packages = [
-    //   { name: 'Package 1', ...this.packageData['package-1'] },
-    //   { name: 'Package 2', ...this.packageData['package-2'] },
-    //   { name: 'Package 3', ...this.packageData['package-3'] },
-    //   { name: 'Package 4', ...this.packageData['package-4'] }
-    // ];
-
+  constructor(private http: HttpClient) {
     this.ai = new GoogleGenAI({ 
       apiKey: environment.apiKey
     });
   }
 
-  viewPackageDetails(selectedPackage: any) {
+  selectPackage(selectedPackage: any) {
     console.log('Selected package:', selectedPackage);
-    // Navigate or display more info
+    // Show details or navigate
+  }
+  
+  savePackageItem(item: any, category: string) {
+    this.http.post(`${this.apiUrl}/selected-packages`, {
+      item: item,
+      category: category
+    }).subscribe({
+      next: (response) => {
+        console.log(`${category} saved successfully:`, response);
+        // Show a success message to the user
+        alert(`${category} has been saved to your collection!`);
+      },
+      error: (error) => {
+        console.error(`Error saving ${category}:`, error);
+        // Show an error message to the user
+        alert(`Failed to save ${category}. Please try again.`);
+      }
+    });
   }
 
   async generatePackages() {
     this.isLoading = true;
-    // context for the prompt
     const request: string = environment.context + " " + environment.jsonFormat;
-
-    // grab user data from mongo
-    const userData: string = "";
-
-    // grab packages associated with user (match user id) in mongo
-    const packageData: string = "";
-
-    // api call
-    const response = await this.ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: "*For now I have no test data, so given this prompt, please just generate RANDOM results for me to test. Thank you!" + request,
-    });
-
-    console.log(response.text);
-    let cleanedResponse = response.text || '';
-    const jsonMatch = cleanedResponse.match(/```(?:json)?\s*([\s\S]*?)```/);
-    
-    if (jsonMatch && jsonMatch[1]) {
-      cleanedResponse = jsonMatch[1].trim();
-    }
-
     try {
+      // Step 1: Call to Gemini AI to generate content
+      const response = await this.ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: "*For now I have no test data, so given this prompt, please just generate RANDOM results for me to test. Thank you!" + request,
+      });
+  
+      console.log('Gemini AI response:', response.text);
+      let cleanedResponse = response.text || '';
+      const jsonMatch = cleanedResponse.match(/```(?:json)?\s*([\s\S]*?)```/);
+      
+      if (jsonMatch && jsonMatch[1]) {
+        cleanedResponse = jsonMatch[1].trim();
+      }
+  
+      // Step 2: Parse the generated content
       const parsedData = JSON.parse(cleanedResponse);
       this.packages = Object.keys(parsedData).map(key => {
         return {
@@ -68,16 +74,54 @@ export class PackagesComponent {
           ...parsedData[key]
         };
       });
+  
+      // Step 3: Iterate through each package and each item (movie, book, etc.)
+      for (let pkg of this.packages) {
+        for (let key of ['movie', 'book', 'music', 'show', 'game', 'new', 'activity']) {
+          // Fixed error by properly checking if pkg[key] exists before accessing its properties
+          if ((pkg as any)[key] && typeof (pkg as any)[key] === 'object' && (pkg as any)[key].hasOwnProperty('title')) {
+            const title = (pkg as any)[key].title;
+            // Construct the query: "Hitch movie", "Harry Potter book", etc.
+            const query = `${title} ${key}`;
+            var queryWithPlus = query;
+  
+            if (title) {
+              try {
+                // Manually replace spaces with '+' in the query before encoding
+                const queryWithPlus = query.replace(/ /g, '+');
+  
+                // Fetch the image from the image retrieval API
+                const imageResponse = await firstValueFrom(this.http.get<any[]>(
+                  `http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`
+                ));
+                console.log(`Image response for ${queryWithPlus}:`, imageResponse);
+  
+                // Process the response
+                if (imageResponse && imageResponse.length > 0) {
+                  // Set the image_link to the URL
+                  (pkg as any)[key].image_link = imageResponse[0].urls?.regular || imageResponse[0].urls?.raw || '';
+                  
+                  // Add a smaller version for thumbnails if needed
+                  (pkg as any)[key].thumbnail = imageResponse[0].urls?.thumb || '';
+                } else {
+                  console.warn(`No image found for ${queryWithPlus}, skipping...`);
+                }
+              } catch (error) {
+                // If image retrieval fails, just log the error and continue to the next item
+                console.error(`Error retrieving image for ${queryWithPlus}:`, error);
+              }
+            }
+          }
+        }
+      }
+  
     } catch (error) {
-      console.error('Failed to parse the response:', error);
-      console.log('Raw response:', cleanedResponse);
-      this.packages = [];
+      console.error('Error generating packages or retrieving images:', error);
     }
-    
+  
     this.isLoading = false;
   }
 }
-
 
 interface Package {
   name: string;
@@ -89,3 +133,12 @@ interface Package {
   new: any;
   activity: any;
 }
+
+// async generateImage() {
+//     try {
+//       const response = await firstValueFrom(this.http.post('http://localhost:3000/api/image-retrieval', "princess bride"));
+//       console.log('Server response:', response);
+//     } catch (error) {
+//       console.error('Error retrieving image:', error);
+//     }
+//   }

@@ -1,7 +1,7 @@
 /* Main container styling */
 :host {
   display: block;
-  background-color: #11005d;
+  /* background-color: #11005d; */
   color: #ffffff;
   font-family: 'Futura', sans-serif;
   padding: 20px;
