@@ -69,26 +69,31 @@ export class PackagesComponent {
       // Step 3: Iterate through each package and each item (movie, book, etc.)
       for (let pkg of this.packages) {
         for (let key of ['movie', 'book', 'music', 'show', 'game', 'new', 'activity']) {
-          if ((pkg as any)[key] && (pkg as any)[key].hasOwnProperty('title')) {
+          // Fixed error by properly checking if pkg[key] exists before accessing its properties
+          if ((pkg as any)[key] && typeof (pkg as any)[key] === 'object' && (pkg as any)[key].hasOwnProperty('title')) {
             const title = (pkg as any)[key].title;
-            const query = `${title} ${key}`; // Construct the query: "Hitch movie", "Harry Potter book", etc.
+            // Construct the query: "Hitch movie", "Harry Potter book", etc.
+            const query = `${title} ${key}`;
             var queryWithPlus = query;
-            
-            if (query) {
-              try {
-                // Step 4: Manually replace spaces with '+' in the query before encoding
-                queryWithPlus = query.replace(/ /g, '+'); // Replaces spaces with '+'
   
-                // Step 5: Fetch the image from the image retrieval API
-                const imageResponse = await firstValueFrom(this.http.get(`http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`));
+            if (title) {
+              try {
+                // Manually replace spaces with '+' in the query before encoding
+                const queryWithPlus = query.replace(/ /g, '+');
+  
+                // Fetch the image from the image retrieval API
+                const imageResponse = await firstValueFrom(this.http.get<any[]>(
+                  `http://localhost:3000/api/image-retrieval/retrieve?id=${queryWithPlus}`
+                ));
                 console.log(`Image response for ${queryWithPlus}:`, imageResponse);
   
-                // Assuming the API returns an array and we need the first image
-                const imageArray = imageResponse as any[];
-  
-                if (imageArray && imageArray.length > 0) {
-                  // Step 6: Set the image_link to the first image URL
-                  (pkg as any)[key].image_link = imageArray[0].urls?.regular || ''; // Adjust based on the actual API response format
+                // Process the response
+                if (imageResponse && imageResponse.length > 0) {
+                  // Set the image_link to the URL
+                  (pkg as any)[key].image_link = imageResponse[0].urls?.regular || imageResponse[0].urls?.raw || '';
+                  
+                  // Add a smaller version for thumbnails if needed
+                  (pkg as any)[key].thumbnail = imageResponse[0].urls?.thumb || '';
                 } else {
                   console.warn(`No image found for ${queryWithPlus}, skipping...`);
                 }
@@ -106,8 +111,7 @@ export class PackagesComponent {
     }
   
     this.isLoading = false;
-  }  
-  
+  }
 }
 
 interface Package {
