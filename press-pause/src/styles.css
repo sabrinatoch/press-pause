@@ -7,7 +7,7 @@
     --secondary-bg: #0c0c0c;
     --primary-text: #00ff00;  /* Classic green CRT text */
     --secondary-text: #ffffff; /* Bright blue accent */
-    --accent-color: #ff3366;  /* Hot pink accent */
+    --accent-color: #f3527a;  /* Hot pink accent */
     --link-color: #ffcc00;    /* Yellow for links */
     --border-color: #444444;
     --glow-color: rgba(0, 255, 0, 0.4);
@@ -29,6 +29,7 @@
     font-family: var(--main-font);
     margin: 0;
     padding: 20px;
+    padding-top: 0;
     line-height: 1.5;
     text-shadow: 0 0 5px var(--glow-color);
     /* cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA/0lEQVQ4T6WSQQ6CMBBFZ0LCgiVewHgD4zHQG3ABD0E8gtdgwQ1cGBKTztdOoYXEuGhibN/8mf9npgtj/uTiOGaMcs6Di4YxluZ5vgshUBdFwTDGz6IoqijyjyiQUj6CdV0XeLquC6qqSvEaY+S9B9wzpRQEQRAFRsVCCLAsS+4D9WmaQhzHIaC15gmaYVEETdMEQLsXwHnPCEA8UwwA6rruF0BrLRARYA5SBqDP4zhOHQHUKLYQgIZZlkVdliW0bRv2gImkaVrEkOe5ywE4GxPggS4MwxQnODQG2O8K3/dpeGAAwDkf+PARXFmWoyiKGlzsCMAEhxTosix/xn8FfgDVgZ16xpMsvAAAAABJRU5ErkJggg=='), auto; */
@@ -60,6 +61,8 @@
     text-align: center;
     border-bottom: 2px solid var(--pixel-border-color);
     padding-bottom: 10px;
+    padding-top: 0;
+    margin-top: 0;
   }
   
   h2 {
@@ -425,6 +428,7 @@
     justify-content: center;
     align-items: center;
     height: 100px;
+    margin-top: 100px;
   }
   
   /* CRT Scanline Effect */
