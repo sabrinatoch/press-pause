@@ -1,199 +1,15 @@
-/* Main container styling */
-:host {
-  display: block;
-  /* background-color: #11005d; */
-  color: #ffffff;
-  font-family: 'Futura', sans-serif;
-  padding: 20px;
-}
 
-h2 {
-  color: #00d9ff;
-  text-shadow: 2px 2px #000000;
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-}
-
-.generate-btn {
-  display: block;
-  margin: 0 auto 30px;
-  background-color: #a8a8a8;
-  color: #000000;
-  border: none;
-  font-family: 'Futura', sans-serif;
-  font-size: 16px;
-  padding: 10px 20px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.generate-btn:hover {
-  background-color: #8a8a8a;
-}
 
 /* Package grid layout */
 .packages-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: 30px;
   margin: 0 auto;
   max-width: 1200px;
 }
 
-/* Package card styling */
-.package-card {
-  background-color: #939393;
-  border: 4px solid #000000;
-  padding: 15px;
-  transition: transform 0.2s;
-}
 
-.package-card:hover {
-  transform: translateY(-5px);
-}
-
-.package-header h3 {
-  text-align: center;
-  color: #ffffff;
-  font-size: 24px;
-  margin: 0 0 15px;
-  padding: 10px;
-  background-color: #000000;
-  text-shadow: 1px 1px #00d9ff;
-}
-
-/* Main grid items */
-.package-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.package-item {
-  background-color: #ababab;
-  border: 2px solid #000000;
-  box-shadow: 3px 3px #000000;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.item-image {
-  height: 120px;
-  overflow: hidden;
-  border-bottom: 2px solid #000000;
-}
-
-.item-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.item-details {
-  padding: 10px;
-}
-
-.item-details h4 {
-  margin: 0;
-  font-size: 16px;
-  color: #000000;
-  text-shadow: none;
-  text-align: left;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.item-title {
-  margin: 5px 0;
-  font-weight: bold;
-  color: #000000;
-  font-size: 14px;
-}
-
-.item-subtitle {
-  margin: 3px 0;
-  color: #333333;
-  font-size: 12px;
-  font-style: italic;
-}
-
-.item-genre {
-  display: inline-block;
-  background-color: #000000;
-  color: #00d9ff;
-  padding: 2px 8px;
-  font-size: 11px;
-  margin-top: 5px;
-  border: 1px solid #00d9ff;
-}
-
-/* Extra items styling */
-.package-extras {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.extra-item {
-  background-color: #ababab;
-  border: 2px solid #000000;
-  box-shadow: 3px 3px #000000;
-  padding: 10px;
-}
-
-.extra-item h4 {
-  margin: 0 0 5px;
-  font-size: 16px;
-  color: #000000;
-  text-shadow: none;
-  text-align: left;
-  text-transform: uppercase;
-}
-
-.item-description {
-  font-size: 12px;
-  color: #333333;
-  margin: 5px 0 0;
-}
-
-/* View details button */
-.view-details-btn {
-  display: block;
-  width: 100%;
-  background-color: #000000;
-  color: #00d9ff;
-  border: 2px solid #00d9ff;
-  padding: 8px;
-  text-transform: uppercase;
-  font-family: 'Futura', sans-serif;
-  cursor: pointer;
-  font-size: 14px;
-  letter-spacing: 1px;
-}
-
-.view-details-btn:hover {
-  background-color: #00d9ff;
-  color: #000000;
-}
-
-/* Pixel art rendering */
-.pixel-art {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* Pixel border utility class */
-.pixel-border {
-  border: 4px solid #000000;
-  box-shadow: 4px 4px #000000;
-}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -204,4 +20,27 @@ h2 {
   .package-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.selected {
+  background-color: #00d9ff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.selected .item-genre {
+  background-color: #ffffff;
+  color: #00d9ff;
+  border-color: #000000;
+}
+
+.selected .view-details-btn {
+  background-color: #ffffff;
+  color: #00d9ff;
+  border-color: #000000;
+}
+
+.selected .view-details-btn:hover {
+  background-color: #00d9ff;
+  color: #ffffff;
 }
